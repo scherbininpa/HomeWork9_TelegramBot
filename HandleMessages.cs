@@ -16,6 +16,7 @@ namespace HomeWork9_TelegramBot
 {
     public class HandleMessages
     {
+
         public HandleMessages()
         { }
         public async Task HandleMessage(ITelegramBotClient bot, Message message)
@@ -57,23 +58,15 @@ namespace HomeWork9_TelegramBot
             }
             if (message.Text == "/files")
             {
-                StreamReader sr = new StreamReader("files.txt");
-                string? line;
-                string text="";
-                int number = 0;
-                while ((line = await sr.ReadLineAsync())!=null)
+                HandleChatFiles chatFiles = new HandleChatFiles();
+                foreach (ChatFiles file in chatFiles.Files.Values)
                 {
-                    number++;
-                    var arr = line.Split(";");
-                    text =  $"{number}) {arr[1]}\n";
-                   // InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton(new[] { "Crfxfmn", "" });
-                    //InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup();
-                    await bot.SendTextMessageAsync(message.Chat.Id, text: $"{text}", replyMarkup: new InlineKeyboardMarkup(new[]
-                    {
-                        new [] { 
-                            InlineKeyboardButton.WithCallbackData( "\U0001F4BE Скачать",$"download_{number}")
-                        }
-                    })) ;
+                    await bot.SendTextMessageAsync(message.Chat.Id, text: $"{file.Name}", replyMarkup: new InlineKeyboardMarkup(new[]
+                        {
+                            new [] {
+                                InlineKeyboardButton.WithCallbackData( "\U0001F4BE Скачать",$"download_{file.Number}")
+                            }
+                     }));
                 }
 
                 return;

@@ -16,6 +16,7 @@ namespace HomeWork9_TelegramBot
 {
     public class HandleCallbackQuerys
     {
+
         public async Task HandleCallbackQuery(ITelegramBotClient bot, CallbackQuery callbackQuery)
         {
             if (callbackQuery.Data.StartsWith("buy"))
@@ -30,7 +31,11 @@ namespace HomeWork9_TelegramBot
             }
             if (callbackQuery.Data.StartsWith("download"))
             {
-                await bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, $"Вы хотите скачать {callbackQuery.Data}?");
+                int id = int.Parse(callbackQuery.Data.Split('_')[1]);
+                ChatFiles file = new HandleChatFiles().Files[id]; ;
+                using (Stream sw = System.IO.File.OpenWrite(@"DownloadFiles\" + file.Name))
+                    await bot.GetInfoAndDownloadFileAsync(file.Id, sw);
+                await bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, $"Файл <b>{file.Name}</b> сохранен!");
                 return;
             }
             await bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, $"You choose with data: {callbackQuery.Data}");
