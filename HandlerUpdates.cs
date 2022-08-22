@@ -39,7 +39,25 @@ namespace HomeWork9_TelegramBot
                 {
                     sw.WriteLineAsync($"{document.FileId};{document.FileName}");
                 }
-                await bot.SendTextMessageAsync(update.Message.Chat.Id, text: $"Документ - {document.FileName}");
+                await bot.SendTextMessageAsync(update.Message.Chat.Id, text: $"Документ - {document.FileName} добавлен");
+            }
+            if (update.Type == UpdateType.Message &&  update?.Message?.Audio != null)
+            {
+                var audio = update?.Message?.Audio;
+                using (StreamWriter sw = new StreamWriter("files.txt", true))
+                {
+                    sw.WriteLineAsync($"{audio.FileId};{audio.FileName}");
+                }
+                await bot.SendTextMessageAsync(update.Message.Chat.Id, text: $"Аудио-файл - {audio.FileName} добавлен");
+            }
+            if (update.Type == UpdateType.Message && update?.Message?.Photo != null)
+            {
+                var photo = update?.Message?.Photo[3];
+                using (StreamWriter sw = new StreamWriter("files.txt", true))
+                {
+                    sw.WriteLineAsync($"{photo.FileId};Фото.jpg");
+                }
+                await bot.SendTextMessageAsync(update.Message.Chat.Id, text: $"Фото добавлено");
             }
         }
     }

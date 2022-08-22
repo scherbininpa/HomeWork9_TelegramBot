@@ -23,9 +23,17 @@ namespace HomeWork9_TelegramBot
         {
             if (message.Text == "/start")
             {
-                await bot.SendTextMessageAsync(message.Chat.Id, text: "Команды для работы: /files | /inline | /keyboard");
+                ReplyKeyboardMarkup keyboard = new(new[]
+                {
+                    new KeyboardButton[] { "Файлы"},
+                })
+                {
+                    ResizeKeyboard = true,
+                    OneTimeKeyboard=true
+                };
+                await bot.SendTextMessageAsync(message.Chat.Id, text: "Добро пожаловать, пользуйтесь меню!", replyMarkup: keyboard);
             }
-            if (message.Text == "/keyboard")
+ /*           if (message.Text == "/keyboard")
             {
                 ReplyKeyboardMarkup keyboard = new(new[]
                 {
@@ -55,8 +63,8 @@ namespace HomeWork9_TelegramBot
                 });
                 await bot.SendTextMessageAsync(message.Chat.Id, text: "Choose inline:", replyMarkup: keyboard);
                 return;
-            }
-            if (message.Text == "/files")
+            }*/
+            if (message.Text == "Файлы")///files
             {
                 HandleChatFiles chatFiles = new HandleChatFiles();
                 foreach (ChatFiles file in chatFiles.Files.Values)
