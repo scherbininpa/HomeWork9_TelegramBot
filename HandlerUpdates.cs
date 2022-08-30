@@ -52,7 +52,8 @@ namespace HomeWork9_TelegramBot
             }
             if (update.Type == UpdateType.Message && update?.Message?.Photo != null)
             {
-                var photo = update?.Message?.Photo[3];
+                //var vv = (int)update?.Message?.Photo.Length;
+                var photo = update?.Message?.Photo[(int)update?.Message?.Photo.Length-1];
                 using (StreamWriter sw = new StreamWriter("files.txt", true))
                 {
                     sw.WriteLineAsync($"{photo.FileId};Фото.jpg");

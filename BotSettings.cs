@@ -14,7 +14,7 @@ namespace HomeWork9_TelegramBot
         {
             try
             {
-                this.token = System.IO.File.ReadAllText(@"O:\Telegram\token.txt");
+                this.token = System.IO.File.ReadAllText("token.txt");
             }
             catch (Exception)
             {
